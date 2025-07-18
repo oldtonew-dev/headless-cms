@@ -1,5 +1,8 @@
 # Headless CMS
 
+##
+Pour consulter l’audit et la démarche de modernisation : [voir AUDIT.md](./AUDIT.md)
+
 ## About
 
 A very simple PHP based headless CMS for simple static websites. Complete with a client side router.
