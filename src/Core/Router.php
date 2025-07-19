@@ -7,7 +7,7 @@ class Router
     private string $webpagesPath;
     private string $errorsPath;
     
-    public function __construct(string $webpagesPath = null, string $errorsPath = null)
+    public function __construct(?string $webpagesPath = null, ?string $errorsPath = null)
     {
         $this->webpagesPath = $webpagesPath ?? __DIR__ . '/../../webpages';
         $this->errorsPath = $errorsPath ?? __DIR__ . '/../../errors';
