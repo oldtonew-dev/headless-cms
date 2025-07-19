@@ -1,9 +1,10 @@
 <?php
+    require_once __DIR__ . '/../src/bootstrap.php';
 
-    require_once "headless-cms.php";
+    use HeadlessCMS\Core\Router;
 
-    $page = handle_request();
-
+    $router = new Router();
+    $page = $router->route();
 ?>
 
 <!DOCTYPE html>
