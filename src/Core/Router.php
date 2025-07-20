@@ -2,15 +2,27 @@
 
 namespace HeadlessCMS\Core;
 
+use HeadlessCMS\Parsers\PageParser;
+use HeadlessCMS\Core\ErrorHandler;
+use HeadlessCMS\Core\Page;
+
 class Router
 {
     private string $webpagesPath;
     private string $errorsPath;
+    private PageParser $parser;
+    private ErrorHandler $errorHandler;
     
-    public function __construct(?string $webpagesPath = null, ?string $errorsPath = null)
-    {
+    public function __construct(
+        ?string $webpagesPath = null, 
+        ?string $errorsPath = null, 
+        ?PageParser $parser = null, 
+        ?ErrorHandler $errorHandler = null
+    ){
         $this->webpagesPath = $webpagesPath ?? __DIR__ . '/../../webpages';
         $this->errorsPath = $errorsPath ?? __DIR__ . '/../../errors';
+        $this->parser = $parser ?? new PageParser();
+        $this->errorHandler = $errorHandler ?? new ErrorHandler($this->errorsPath, $this->parser);
     }
     
     public function route(): Page
@@ -20,7 +32,7 @@ class Router
         $pagePath = $this->webpagesPath . $normalizedPath;
         
         if (!$this->pageExists($pagePath)) {
-            return $this->handleError(404);
+            return $this->errorHandler->handleError(404);
         }
         
         return $this->loadPage($pagePath);
@@ -50,14 +62,15 @@ class Router
         $rawContent = $this->getPageContent($pagePath);
         
         if ($rawContent === false) {
-            return $this->handleError(500);
+            return $this->errorHandler->handleError(500);
         }
         
         if ($rawContent === '') {
             return new Page($pagePath, '', null);
         }
         
-        return $this->parsePageContent($pagePath, $rawContent);
+        $parsed = $this->parser->parsePageContent($rawContent);
+        return new Page($pagePath, $parsed['content'], $parsed['settings']);
     }
     
     private function getPageContent(string $pagePath): string|false
@@ -67,47 +80,5 @@ class Router
         } catch (\Throwable $th) {
             return false;
         }
-    }
-    
-    private function parsePageContent(string $pagePath, string $rawContent): Page
-    {
-        // TODO: Move this logic to a separate PageParser class
-        list($hasSettings, $pageParts) = $this->parsePageContentParts($rawContent);
-        
-        if ($hasSettings && count($pageParts) === 1) {
-            return new Page($pagePath, '', $pageParts[0]);
-        }
-        
-        if (count($pageParts) !== 2) {
-            return new Page($pagePath, $pageParts[0], null);
-        }
-        
-        return new Page($pagePath, $pageParts[1], $pageParts[0]);
-    }
-    
-    private function parsePageContentParts(string $content): array
-    {
-        $hasSettings = preg_match('/^.[=]+([\s]+)?$/m', $content) > 0;
-        $split = preg_split('/^.[=]+([\s]+)?$/m', $content);
-        return [$hasSettings, $split];
-    }
-    
-    private function handleError(int $errorCode): Page
-    {
-        http_response_code($errorCode);
-        
-        $errorDirPath = $this->errorsPath . '/' . $errorCode . '/';
-        
-        if ($this->pageExists($errorDirPath)) {
-            $rawContent = $this->getPageContent($errorDirPath);
-            
-            if ($rawContent === false) {
-                exit;
-            }
-            
-            return $this->parsePageContent($errorDirPath, $rawContent);
-        }
-        
-        return new Page($errorDirPath, "<p style='text-align:center;'>Error {$errorCode}</p>", null);
     }
 }

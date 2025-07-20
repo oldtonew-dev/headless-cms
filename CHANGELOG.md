@@ -15,15 +15,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CHANGELOG.md file for tracking changes
 
 ### Changed
-- Enhanced README with audit section
+- Enhanced README with audit section and link to AUDIT.md
+- Fully migrated backend to OOP architecture (Router, Page, PageParser, ErrorHandler)
+- Centralized error handling and page parsing
+
+### Removed
+- Legacy procedural file headless-cms.php (all logic migrated to OOP classes)
+
+### In Progress
+- [x] Refactor PHP code to OOP architecture
+  - [x] Create refactor/oop-backend branch
+  - [x] Implement improved Page class
+  - [x] Add proper error handling and logging
+  - [x] Create Router class for better separation of concerns
+  - [x] Implement dependency injection pattern
 
 ### Planned
-- [ ] Refactor PHP code to OOP architecture
-  - [ ] Create refactor/oop-backend branch
-  - [ ] Implement improved Page class
-  - [ ] Add proper error handling and logging
-  - [ ] Create Router class for better separation of concerns
-  - [ ] Implement dependency injection pattern
 - [ ] Add unit tests with PHPUnit
   - [ ] Test Page class functionality
   - [ ] Test routing logic

@@ -1,9 +1,14 @@
 <?php
     require_once __DIR__ . '/../src/bootstrap.php';
 
+    use HeadlessCMS\Parsers\PageParser;
+    use HeadlessCMS\Core\ErrorHandler;
     use HeadlessCMS\Core\Router;
 
-    $router = new Router();
+    $parser = new PageParser();
+    $errorHandler = new ErrorHandler(__DIR__ . '/../errors', $parser);
+    $router = new Router(null, null, $parser, $errorHandler);
+
     $page = $router->route();
 ?>
 
