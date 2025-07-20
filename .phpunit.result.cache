@@ -1,0 +1,1 @@
+{"version":1,"defects":{"PageTest::testPageContentIsSet":8,"PageTest::testPageSettingsAreParsed":8,"PageTest::testGetPropertyReturnsTitleTag":8},"times":{"PageTest::testPageContentIsSet":0,"PageTest::testPageSettingsAreParsed":0,"PageTest::testGetPropertyReturnsTitleTag":0}}
