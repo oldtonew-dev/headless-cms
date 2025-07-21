@@ -11,9 +11,9 @@ class PageParser
         $content = '';
         if ($hasSettings && count($pageParts) === 2) {
             $settings = $this->parseRawSettingsBlock($pageParts[0]);
-            $content = $pageParts[1];
+            $content = trim($pageParts[1]);
         } else {
-            $content = $pageParts[0];
+            $content = trim($pageParts[0]);
         }
         return ['settings' => $settings, 'content' => $content];
     }
