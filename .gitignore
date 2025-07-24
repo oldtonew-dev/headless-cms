@@ -2,3 +2,4 @@ errors/
 resources/
 webpages/
 scripts/
+.phpunit.result.cache

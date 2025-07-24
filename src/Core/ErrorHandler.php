@@ -27,7 +27,8 @@ class ErrorHandler
             if ($rawContent === false) {
                 exit;
             }
-            return $this->parser->parsePageContent($errorDirPath, $rawContent);
+            $parsed = $this->parser->parsePageContent($rawContent);
+            return new Page($errorDirPath, $parsed['content'], $parsed['settings']);
         }
 
         return new Page($errorDirPath, "<p style='text-align:center;'>Error {$errorCode}</p>", null);
