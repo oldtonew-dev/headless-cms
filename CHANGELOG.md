@@ -13,11 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Project audit and modernization plan
 - Documentation for refactoring approach
 - CHANGELOG.md file for tracking changes
+- PHPUnit test suite for backend classes
+  - PageTest: tests for Page class functionality
+  - PageParserTest: tests for content and settings parsing
+  - RouterTest: tests for routing logic and error handling
+  - ErrorHandlerTest: tests for custom error pages and fallbacks
 
 ### Changed
 - Enhanced README with audit section and link to AUDIT.md
 - Fully migrated backend to OOP architecture (Router, Page, PageParser, ErrorHandler)
 - Centralized error handling and page parsing
+- Fixed content parsing to normalize whitespace with trim()
 
 ### Removed
 - Legacy procedural file headless-cms.php (all logic migrated to OOP classes)
@@ -29,13 +35,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [x] Add proper error handling and logging
   - [x] Create Router class for better separation of concerns
   - [x] Implement dependency injection pattern
+- [x] Add unit tests with PHPUnit
+  - [x] Test Page class functionality
+  - [x] Test routing logic
+  - [x] Test error handling
+  - [x] Test page settings parsing
 
 ### Planned
-- [ ] Add unit tests with PHPUnit
-  - [ ] Test Page class functionality
-  - [ ] Test routing logic
-  - [ ] Test error handling
-  - [ ] Test page settings parsing
 - [ ] Implement Composer for dependency management
   - [ ] Create composer.json
   - [ ] Add PHPUnit as dev dependency
